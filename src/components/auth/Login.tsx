@@ -7,8 +7,9 @@ import {
   InputRightElement, Stack
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaBookOpen } from "react-icons/fa";
-import {useState} from "react";
+import React, {useState} from "react";
 import {authenticate} from "../../services/LoginService";
+import {Link, useNavigate} from "react-router-dom";
 
 export interface LoginDetailsType {
   username: string;
@@ -16,6 +17,7 @@ export interface LoginDetailsType {
 }
 
 function Login() {
+  let navigate = useNavigate();
   // Icons
   const CFaUserAlt = chakra(FaUserAlt)
   const CFaLock = chakra(FaLock)
@@ -33,7 +35,7 @@ function Login() {
       password: e.target[1].value
     }
 
-    if (await authenticate(formData)) return console.log('authenticated')
+    if (await authenticate(formData)) return navigate('/counter')
 
     alert('Wrong username or password')
   }
@@ -108,6 +110,7 @@ function Login() {
           </Box>
         </Stack>
       </Flex>
+      <Link to="/counter">test link</Link>
     </>
   )
 }

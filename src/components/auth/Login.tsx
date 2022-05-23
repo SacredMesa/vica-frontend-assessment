@@ -8,14 +8,35 @@ import {
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaBookOpen } from "react-icons/fa";
 import {useState} from "react";
+import {authenticate} from "../../services/LoginService";
+
+export interface LoginDetailsType {
+  username: string;
+  password: string;
+}
 
 function Login() {
-  const CFaUserAlt = chakra(FaUserAlt);
-  const CFaLock = chakra(FaLock);
-  const CFaBook = chakra(FaBookOpen);
+  // Icons
+  const CFaUserAlt = chakra(FaUserAlt)
+  const CFaLock = chakra(FaLock)
+  const CFaBook = chakra(FaBookOpen)
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleShowClick = () => setShowPassword(!showPassword);
+  // Show/hide password
+  const [showPassword, setShowPassword] = useState(false)
+  const handleShowClick = () => setShowPassword(!showPassword)
+
+  // Attempt login on submit
+  const tryLogin = async (e: any) => {
+    e.preventDefault();
+    const formData = {
+      username: e.target[0].value,
+      password: e.target[1].value
+    }
+
+    if (await authenticate(formData)) return console.log('authenticated')
+
+    alert('Wrong username or password')
+  }
 
   return (
     <>
@@ -36,7 +57,7 @@ function Login() {
           <CFaBook boxSize='100px'/>
           <Heading>Login</Heading>
           <Box minW={{ base: "90%", md: "468px" }}>
-            <form>
+            <form onSubmit={tryLogin}>
               <Stack
                 spacing={4}
                 p="1rem"
@@ -49,7 +70,10 @@ function Login() {
                       pointerEvents="none"
                       children={<CFaUserAlt color="gray.300" />}
                     />
-                    <Input type="email" placeholder="email address" />
+                    <Input
+                      type="text"
+                      placeholder="Username"
+                    />
                   </InputGroup>
                 </FormControl>
                 <FormControl>
@@ -88,4 +112,4 @@ function Login() {
   )
 }
 
-export default Login;
+export default Login

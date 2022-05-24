@@ -1,0 +1,22 @@
+[
+  {
+    "username": "adminuser",
+    "password": "test-password",
+    "persona": "ADMIN"
+  },
+  {
+    "username": "editoruser",
+    "password": "test-password",
+    "persona": "EDITOR"
+  },
+  {
+    "username": "normaluser1",
+    "password": "test-password",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser1",
+    "password": "test-password",
+    "persona": "USER"
+  }
+]

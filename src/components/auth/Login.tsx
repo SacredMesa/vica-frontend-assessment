@@ -42,7 +42,7 @@ function Login() {
   }
 
   useEffect(() => {
-    if(isAuthenticated) navigate('/counter')
+    if(isAuthenticated) navigate('/home')
   }, [isAuthenticated, navigate])
 
   return (

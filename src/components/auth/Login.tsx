@@ -6,10 +6,11 @@ import {
   Input, InputGroup, InputLeftElement,
   InputRightElement, Stack
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock, FaBookOpen } from "react-icons/fa";
-import React, {useState} from "react";
-import {authenticate} from "../../services/LoginService";
+import {FaUserAlt, FaLock, FaBookOpen} from "react-icons/fa";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {authenticatedState, verifyUser} from "./loginSlice";
 
 export interface LoginDetailsType {
   username: string;
@@ -18,6 +19,9 @@ export interface LoginDetailsType {
 
 function Login() {
   let navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(authenticatedState)
+
   // Icons
   const CFaUserAlt = chakra(FaUserAlt)
   const CFaLock = chakra(FaLock)
@@ -34,11 +38,12 @@ function Login() {
       username: e.target[0].value,
       password: e.target[1].value
     }
-
-    if (await authenticate(formData)) return navigate('/counter')
-
-    alert('Wrong username or password')
+    dispatch(verifyUser(formData))
   }
+
+  useEffect(() => {
+    if(isAuthenticated) navigate('/counter')
+  }, [isAuthenticated, navigate])
 
   return (
     <>
@@ -58,7 +63,7 @@ function Login() {
         >
           <CFaBook boxSize='100px'/>
           <Heading>Login</Heading>
-          <Box minW={{ base: "90%", md: "468px" }}>
+          <Box minW={{base: "90%", md: "468px"}}>
             <form onSubmit={tryLogin}>
               <Stack
                 spacing={4}
@@ -70,7 +75,7 @@ function Login() {
                   <InputGroup>
                     <InputLeftElement
                       pointerEvents="none"
-                      children={<CFaUserAlt color="gray.300" />}
+                      children={<CFaUserAlt color="gray.300"/>}
                     />
                     <Input
                       type="text"
@@ -83,7 +88,7 @@ function Login() {
                     <InputLeftElement
                       pointerEvents="none"
                       color="gray.300"
-                      children={<CFaLock color="gray.300" />}
+                      children={<CFaLock color="gray.300"/>}
                     />
                     <Input
                       type={showPassword ? "text" : "password"}

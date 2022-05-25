@@ -1,14 +1,30 @@
-import {Navigate} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import BaseLayout from "../layouts/BaseLayout";
-import React from "react";
-import {store} from "../../app/store";
+import React, {useEffect} from "react";
+import {useAppDispatch} from "../../app/hooks";
+import {checkSession} from "./loginSlice";
+import {Counter} from "../counter/Counter";
 
 const AuthRedirection = () => {
-  if (!store.getState().login.isAuthenticated) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkSession())
+    // if(isAuthenticated) return navigate('/home')
+  },[dispatch])
+
+  if (!sessionStorage.getItem('username') && !sessionStorage.getItem('persona')) {
     return <Navigate to='/login' replace/>
   }
   return (
-    <BaseLayout />
+    <BaseLayout>
+      <Routes>
+        <Route path="/counter" element={<Counter />} />
+        <Route path="/books" element={<>books</>} />
+        <Route path="/analytics" element={<>analytics</>} />
+        <Route path="/users" element={<>users</>} />
+      </Routes>
+    </BaseLayout>
   )
 }
 

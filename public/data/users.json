@@ -1,22 +1,22 @@
 [
   {
     "username": "adminuser",
-    "password": "test-password",
+    "password": "1234",
     "persona": "ADMIN"
   },
   {
     "username": "editoruser",
-    "password": "test-password",
+    "password": "1234",
     "persona": "EDITOR"
   },
   {
     "username": "normaluser1",
-    "password": "test-password",
+    "password": "1234",
     "persona": "USER"
   },
   {
     "username": "normaluser1",
-    "password": "test-password",
+    "password": "1234",
     "persona": "USER"
   }
 ]

@@ -8,9 +8,9 @@ import {
 } from "@chakra-ui/react";
 import {FaUserAlt, FaLock, FaBookOpen} from "react-icons/fa";
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {authenticatedState, verifyUser} from "./loginSlice";
+import {authenticatedState, checkSession, verifyUser} from "./loginSlice";
 
 export interface LoginDetailsType {
   username: string;
@@ -42,7 +42,11 @@ function Login() {
   }
 
   useEffect(() => {
-    if(isAuthenticated) navigate('/home')
+    dispatch(checkSession())
+  },[dispatch])
+
+  useEffect(() => {
+    if(isAuthenticated) return navigate('/home')
   }, [isAuthenticated, navigate])
 
   return (
@@ -62,7 +66,7 @@ function Login() {
           alignItems="center"
         >
           <CFaBook boxSize='100px'/>
-          <Heading>Login</Heading>
+          <Heading>Looking Glass</Heading>
           <Box minW={{base: "90%", md: "468px"}}>
             <form onSubmit={tryLogin}>
               <Stack
@@ -115,7 +119,6 @@ function Login() {
           </Box>
         </Stack>
       </Flex>
-      <Link to="/counter">test link</Link>
     </>
   )
 }

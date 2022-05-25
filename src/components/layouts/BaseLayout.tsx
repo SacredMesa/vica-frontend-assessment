@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
   IconButton,
   Avatar,
@@ -23,7 +23,6 @@ import {
 } from '@chakra-ui/react';
 import {
   FiMenu,
-  FiBell,
   FiBook,
   FiBarChart2,
   FiUsers,
@@ -32,18 +31,25 @@ import {
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import {store} from "../../app/store";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useNavigate} from "react-router-dom";
+import {authenticatedPersona, signOut} from "../auth/loginSlice";
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  path: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Books', icon: FiBook },
-  { name: 'Analytics', icon: FiBarChart2 },
-  { name: 'Users', icon: FiUsers },
+  { name: 'Books', icon: FiBook, path: '/home/books'},
+  { name: 'Analytics', icon: FiBarChart2, path: '/home/analytics' },
 ];
 
-function BaseLayout() {
+const AdminLinkItems: Array<LinkItemProps> = [
+  { name: 'Users', icon: FiUsers, path: '/home/users' },
+]
+
+function BaseLayout({children}: {children: ReactNode}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
@@ -66,7 +72,7 @@ function BaseLayout() {
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        TEST STUFF
+        {children}
       </Box>
     </Box>
   );
@@ -77,6 +83,8 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const persona = useAppSelector(authenticatedPersona)
+
   return (
     <Box
       transition="3s ease"
@@ -89,12 +97,18 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+          Looking Glass
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} path={link.path}>
+          {link.name}
+        </NavItem>
+      ))}
+
+      {persona === 'ADMIN' && AdminLinkItems.map((link) => (
+        <NavItem key={link.name} icon={link.icon} path={link.path}>
           {link.name}
         </NavItem>
       ))}
@@ -105,10 +119,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
+  path: string
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link href={path} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         p="4"
@@ -141,7 +156,14 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  console.log('get state?', store.getState())
+  let navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const onSignOut = () => {
+    dispatch(signOut())
+    navigate('/login')
+  }
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -170,12 +192,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton
@@ -204,7 +220,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={onSignOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

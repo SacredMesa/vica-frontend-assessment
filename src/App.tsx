@@ -1,19 +1,15 @@
 import React from 'react';
 import './App.css';
 import Login from "./components/auth/Login";
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import AuthRedirection from "./components/auth/AuthRedirection";
 
 function App() {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<AuthRedirection />}
-      />
       <Route path="/login" element={<Login />} />
-      <Route path="/home" element={<AuthRedirection />} />
-      <Route path="*" element={<Navigate to='/'/>} />
+      <Route path="/home/*" element={<AuthRedirection />} />
+      <Route path="*" element={<>Invalid URL</>} />
     </Routes>
   )
 }

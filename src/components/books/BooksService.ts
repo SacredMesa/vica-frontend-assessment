@@ -1,15 +1,11 @@
 
 export interface BookType {
-  isbn: string
-  title: string
-  subtitle: string
-  author: string
-  published: string
-  publisher: string
-  pages: number
-  description: string
-  website: string
-  genre: string
+  id: string;
+  title: string;
+  description: string;
+  genre: string;
+  author: string;
+  year_published: string;
 }
 
 export async function getAllBooks(): Promise<BookType[]> {

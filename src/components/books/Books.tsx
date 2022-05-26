@@ -20,7 +20,6 @@ import {authenticatedPersona} from "../auth/loginSlice";
 const Books = () => {
   const [bookData, setBookData] = useState<BookType[]>([])
   const persona = useAppSelector(authenticatedPersona)
-  console.log('persona', persona, [PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona))
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -58,22 +57,11 @@ const Books = () => {
     [persona]
   )
 
-  // const deleteBook = (index: number) => {
-  //
-  //   const values = [...data]
-  //   console.log('values?', values)
-  //   values.splice(index, 1)
-  //   console.log('new values', values)
-  //
-  //   setBookData(values)
-  // }
-
   const deleteButton = useCallback(
     ({row: {index}}: any) => {
       const deleteBook = (index: number) => {
         const values = [...data]
         values.splice(index, 1)
-        console.log('new values', values)
 
         setBookData(values)
       }
@@ -96,11 +84,6 @@ const Books = () => {
       {
         Header: 'Title',
         accessor: 'title',
-        Cell: editableField,
-      },
-      {
-        Header: 'Subtitle',
-        accessor: 'subtitle',
         Cell: editableField,
       },
       {

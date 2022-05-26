@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {LoginDetailsType} from "./Login";
-import {authenticate} from "../../services/LoginService";
+import {authenticate} from "./LoginService";
 import {RootState} from '../../app/store';
 
 export interface LoginState {

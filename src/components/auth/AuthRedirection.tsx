@@ -4,6 +4,7 @@ import React, {useEffect} from "react";
 import {useAppDispatch} from "../../app/hooks";
 import {checkSession} from "./loginSlice";
 import {Counter} from "../counter/Counter";
+import UserManagement from "../user-management/UserManagement";
 
 const AuthRedirection = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ const AuthRedirection = () => {
         <Route path="/counter" element={<Counter />} />
         <Route path="/books" element={<>books</>} />
         <Route path="/analytics" element={<>analytics</>} />
-        <Route path="/users" element={<>users</>} />
+        <Route path="/users" element={<UserManagement />} />
       </Routes>
     </BaseLayout>
   )

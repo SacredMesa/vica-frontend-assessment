@@ -30,10 +30,9 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
-import {store} from "../../app/store";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {useNavigate} from "react-router-dom";
-import {authenticatedPersona, signOut} from "../auth/loginSlice";
+import {authenticatedPersona, authenticatedUser, signOut} from "../auth/loginSlice";
 
 interface LinkItemProps {
   name: string;
@@ -158,6 +157,8 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   let navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const user = useAppSelector(authenticatedUser)
+  const persona = useAppSelector(authenticatedPersona)
 
   const onSignOut = () => {
     dispatch(signOut())
@@ -207,9 +208,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">{store.getState().login.username}</Text>
+                  <Text fontSize="sm">{user}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    {store.getState().login.persona}
+                    {persona}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

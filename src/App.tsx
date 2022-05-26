@@ -9,7 +9,7 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/home/*" element={<AuthRedirection />} />
-      <Route path="*" element={<>Invalid URL</>} />
+      <Route path="*" element={<AuthRedirection />} />
     </Routes>
   )
 }

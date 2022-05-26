@@ -5,6 +5,8 @@ import {useAppDispatch} from "../../app/hooks";
 import {checkSession} from "./loginSlice";
 import {Counter} from "../counter/Counter";
 import UserManagement from "../user-management/UserManagement";
+import Books from "../books/Books";
+import Analytics from "../analytics/Analytics";
 
 const AuthRedirection = () => {
   const dispatch = useAppDispatch();
@@ -21,8 +23,8 @@ const AuthRedirection = () => {
     <BaseLayout>
       <Routes>
         <Route path="/counter" element={<Counter />} />
-        <Route path="/books" element={<>books</>} />
-        <Route path="/analytics" element={<>analytics</>} />
+        <Route path="/books" element={<Books />} />
+        <Route path="/analytics" element={<Analytics />} />
         <Route path="/users" element={<UserManagement />} />
       </Routes>
     </BaseLayout>

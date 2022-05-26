@@ -1,44 +1,43 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Column, useSortBy, useTable} from 'react-table'
+import React, {useCallback, useEffect, useState} from "react";
+import {BookType, getAllBooks} from "./BooksService";
 import {
+  Container,
+  Editable,
+  EditableInput,
+  EditablePreview,
   Table,
-  Thead,
-  Tbody,
-  Tr,
+  TableContainer, Tbody, Td,
   Th,
-  Td,
-  TableContainer,
-  Container, EditableInput, Editable, EditablePreview,
-} from '@chakra-ui/react'
-
-import {DeleteIcon} from '@chakra-ui/icons'
-import {getAllUsers, UserDetails} from "./UserManagementServices";
+  Thead,
+  Tr
+} from "@chakra-ui/react";
+import {DeleteIcon} from "@chakra-ui/icons";
+import {Column, useSortBy, useTable} from "react-table";
+import {PERSONAS} from "../../constants";
 import {useAppSelector} from "../../app/hooks";
 import {authenticatedPersona} from "../auth/loginSlice";
-import {PERSONAS} from "../../constants";
 
-
-const UserManagement = () => {
-  const [userData, setUserData] = useState<UserDetails[]>([])
+const Books = () => {
+  const [bookData, setBookData] = useState<BookType[]>([])
   const persona = useAppSelector(authenticatedPersona)
+  console.log('persona', persona, [PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona))
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const loadedUsers = await getAllUsers()
-      setUserData(loadedUsers)
+    const fetchBooks = async () => {
+      const loadedBooks = await getAllBooks()
+      setBookData(loadedBooks)
     }
-    fetchUsers()
+    fetchBooks()
   }, [])
 
   const data = React.useMemo(
     () => {
-      console.log('data in memo', userData)
-      return userData.map(item => ({
+      return bookData.map(item => ({
         ...item,
         deleteButton: ''
       }))
     },
-    [userData]
+    [bookData]
   )
 
   const editableField = useCallback(
@@ -47,7 +46,10 @@ const UserManagement = () => {
       // }
 
       return (
-        <Editable defaultValue={initialValue} isDisabled={persona !== PERSONAS.ADMIN}>
+        <Editable
+          defaultValue={initialValue}
+          isDisabled={![PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona)}
+        >
           <EditablePreview/>
           <EditableInput/>
         </Editable>
@@ -56,23 +58,31 @@ const UserManagement = () => {
     [persona]
   )
 
-
+  // const deleteBook = (index: number) => {
+  //
+  //   const values = [...data]
+  //   console.log('values?', values)
+  //   values.splice(index, 1)
+  //   console.log('new values', values)
+  //
+  //   setBookData(values)
+  // }
 
   const deleteButton = useCallback(
     ({row: {index}}: any) => {
-      const deleteUser = (index: number) => {
+      const deleteBook = (index: number) => {
         const values = [...data]
         values.splice(index, 1)
         console.log('new values', values)
 
-        setUserData(values)
+        setBookData(values)
       }
 
       return (
         <>
           {(
             <DeleteIcon
-              onClick={() => deleteUser(index)}
+              onClick={() => deleteBook(index)}
             />
           )}
         </>
@@ -84,13 +94,28 @@ const UserManagement = () => {
   const columns: Column<any>[] = React.useMemo(
     () => [
       {
-        Header: 'Username',
-        accessor: 'username',
+        Header: 'Title',
+        accessor: 'title',
         Cell: editableField,
       },
       {
-        Header: 'Persona',
-        accessor: 'persona',
+        Header: 'Subtitle',
+        accessor: 'subtitle',
+        Cell: editableField,
+      },
+      {
+        Header: 'Description',
+        accessor: 'description',
+        Cell: editableField,
+      },
+      {
+        Header: 'Author',
+        accessor: 'author',
+        Cell: editableField,
+      },
+      {
+        Header: 'Genre',
+        accessor: 'genre',
         Cell: editableField,
       },
       {
@@ -109,8 +134,6 @@ const UserManagement = () => {
     rows,
     prepareRow,
   } = useTable({columns, data}, useSortBy)
-
-  console.log('rows,', rows)
 
   return (
     <Container maxW="100%">
@@ -158,7 +181,6 @@ const UserManagement = () => {
       </TableContainer>
     </Container>
   )
-
 }
 
-export default UserManagement
+export default Books

@@ -39,24 +39,6 @@ const Books = () => {
     [bookData]
   )
 
-  const editableField = useCallback(
-    ({value: initialValue}: any) => {
-      // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      // }
-
-      return (
-        <Editable
-          defaultValue={initialValue}
-          isDisabled={![PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona)}
-        >
-          <EditablePreview/>
-          <EditableInput/>
-        </Editable>
-      )
-    },
-    [persona]
-  )
-
   const deleteButton = useCallback(
     ({row: {index}}: any) => {
       const deleteBook = (index: number) => {
@@ -84,22 +66,62 @@ const Books = () => {
       {
         Header: 'Title',
         accessor: 'title',
-        Cell: editableField,
+        Cell: ({value: initialValue}: any) => {
+          return (
+            <Editable
+              defaultValue={initialValue}
+              isDisabled={![PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona)}
+            >
+              <EditablePreview/>
+              <EditableInput/>
+            </Editable>
+          )
+        },
       },
       {
         Header: 'Description',
         accessor: 'description',
-        Cell: editableField,
+        Cell: ({value: initialValue}: any) => {
+          return (
+            <Editable
+              defaultValue={initialValue}
+              isDisabled={![PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona)}
+            >
+              <EditablePreview/>
+              <EditableInput/>
+            </Editable>
+          )
+        },
       },
       {
         Header: 'Author',
         accessor: 'author',
-        Cell: editableField,
+        Cell: ({value: initialValue}: any) => {
+          return (
+            <Editable
+              defaultValue={initialValue}
+              isDisabled={![PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona)}
+            >
+              <EditablePreview/>
+              <EditableInput/>
+            </Editable>
+          )
+        },
       },
       {
         Header: 'Genre',
         accessor: 'genre',
-        Cell: editableField,
+        Cell: ({value: initialValue}: any) => {
+          return (
+            <Editable
+              defaultValue={initialValue}
+              isDisabled={![PERSONAS.ADMIN, PERSONAS.EDITOR].includes(persona)}
+            >
+              <EditablePreview/>
+              <EditableInput/>
+            </Editable>
+          )
+        },
       },
       {
         Header: '',
@@ -107,7 +129,7 @@ const Books = () => {
         Cell: deleteButton,
       },
     ],
-    [deleteButton, editableField]
+    [deleteButton, persona]
   )
 
   const {

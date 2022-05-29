@@ -32,7 +32,6 @@ const UserManagement = () => {
 
   const data = React.useMemo(
     () => {
-      console.log('data in memo', userData)
       return userData.map(item => ({
         ...item,
         deleteButton: ''
@@ -41,29 +40,11 @@ const UserManagement = () => {
     [userData]
   )
 
-  const editableField = useCallback(
-    ({value: initialValue}: any) => {
-      // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      // }
-
-      return (
-        <Editable defaultValue={initialValue} isDisabled={persona !== PERSONAS.ADMIN}>
-          <EditablePreview/>
-          <EditableInput/>
-        </Editable>
-      )
-    },
-    [persona]
-  )
-
-
-
   const deleteButton = useCallback(
     ({row: {index}}: any) => {
       const deleteUser = (index: number) => {
         const values = [...data]
         values.splice(index, 1)
-        console.log('new values', values)
 
         setUserData(values)
       }
@@ -86,12 +67,26 @@ const UserManagement = () => {
       {
         Header: 'Username',
         accessor: 'username',
-        Cell: editableField,
+        Cell:     ({value: initialValue}: any) => {
+          return (
+            <Editable defaultValue={initialValue} isDisabled={persona !== PERSONAS.ADMIN}>
+              <EditablePreview/>
+              <EditableInput/>
+            </Editable>
+          )
+        },
       },
       {
         Header: 'Persona',
         accessor: 'persona',
-        Cell: editableField,
+        Cell:     ({value: initialValue}: any) => {
+          return (
+            <Editable defaultValue={initialValue} isDisabled={persona !== PERSONAS.ADMIN}>
+              <EditablePreview/>
+              <EditableInput/>
+            </Editable>
+          )
+        },
       },
       {
         Header: '',
@@ -99,7 +94,7 @@ const UserManagement = () => {
         Cell: deleteButton,
       },
     ],
-    [deleteButton, editableField]
+    [deleteButton, persona]
   )
 
   const {
@@ -110,8 +105,6 @@ const UserManagement = () => {
     prepareRow,
   } = useTable({columns, data}, useSortBy)
 
-  console.log('rows,', rows)
-
   return (
     <Container maxW="100%">
       <TableContainer>
@@ -120,7 +113,7 @@ const UserManagement = () => {
             {headerGroups.map(headerGroup => (
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column: any) => (
-                  <Th {...column.getHeaderProps()}>
+                  <Th {...column.getHeaderProps()} onClick={() => {}}>
                     <div
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                     >

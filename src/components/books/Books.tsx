@@ -12,10 +12,11 @@ import {
   Tr
 } from "@chakra-ui/react";
 import {DeleteIcon} from "@chakra-ui/icons";
-import {Column, useSortBy, useTable} from "react-table";
+import {Column, usePagination, useSortBy, useTable} from "react-table";
 import {PERSONAS} from "../../constants";
 import {useAppSelector} from "../../app/hooks";
 import {authenticatedPersona} from "../auth/loginSlice";
+import Pagination from "../common/pagination";
 
 const Books = () => {
   const [bookData, setBookData] = useState<BookType[]>([])
@@ -136,9 +137,18 @@ const Books = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
     prepareRow,
-  } = useTable({columns, data}, useSortBy)
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = useTable({columns, data}, useSortBy, usePagination)
 
   return (
     <Container maxW="100%">
@@ -167,7 +177,7 @@ const Books = () => {
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
+            {page.map(row => {
               prepareRow(row)
               return (
                 <Tr {...row.getRowProps()}>
@@ -184,6 +194,19 @@ const Books = () => {
           </Tbody>
         </Table>
       </TableContainer>
+
+      <Pagination
+        gotoPage={gotoPage}
+        canPreviousPage={canPreviousPage}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+      />
     </Container>
   )
 }

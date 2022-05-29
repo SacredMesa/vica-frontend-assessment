@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Column, useSortBy, useTable} from 'react-table'
+import {Column, usePagination, useSortBy, useTable} from 'react-table'
 import {
   Table,
   Thead,
@@ -16,6 +16,7 @@ import {getAllUsers, UserDetails} from "./UserManagementServices";
 import {useAppSelector} from "../../app/hooks";
 import {authenticatedPersona} from "../auth/loginSlice";
 import {PERSONAS} from "../../constants";
+import Pagination from "../common/pagination";
 
 
 const UserManagement = () => {
@@ -101,9 +102,18 @@ const UserManagement = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
     prepareRow,
-  } = useTable({columns, data}, useSortBy)
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = useTable({columns, data}, useSortBy, usePagination)
 
   return (
     <Container maxW="100%">
@@ -132,7 +142,7 @@ const UserManagement = () => {
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
+            {page.map(row => {
               prepareRow(row)
               return (
                 <Tr {...row.getRowProps()}>
@@ -149,6 +159,18 @@ const UserManagement = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      <Pagination
+        gotoPage={gotoPage}
+        canPreviousPage={canPreviousPage}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+      />
     </Container>
   )
 

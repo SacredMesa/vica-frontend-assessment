@@ -2,18 +2,16 @@ import React from 'react';
 import './App.css';
 import Login from "./components/auth/Login";
 import {Route, Routes} from "react-router-dom";
-import {Counter} from "./components/counter/Counter";
+import AuthRedirection from "./components/auth/AuthRedirection";
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/counter" element={<Counter />}/>
-        <Route path="*" element={<>Invalid URL!</>} />
-      </Routes>
-    </>
-  );
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/home/*" element={<AuthRedirection />} />
+      <Route path="*" element={<AuthRedirection />} />
+    </Routes>
+  )
 }
 
 export default App;

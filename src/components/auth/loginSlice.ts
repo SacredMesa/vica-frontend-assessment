@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {LoginDetailsType} from "./Login";
-import {authenticate} from "../../services/LoginService";
-import { RootState } from '../../app/store';
+import {authenticate} from "./LoginService";
+import {RootState} from '../../app/store';
 
 export interface LoginState {
   isAuthenticated: boolean;
@@ -28,7 +28,20 @@ export const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-
+    checkSession: (state) => {
+      const user = sessionStorage.getItem('username')
+      const persona = sessionStorage.getItem('persona')
+      if (user && persona) {
+       state.isAuthenticated = true
+       state.username = user
+       state.persona = persona
+      }
+    },
+    signOut: (state) => {
+      sessionStorage.removeItem('username')
+      sessionStorage.removeItem('persona')
+      state.isAuthenticated = false
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -41,6 +54,8 @@ export const loginSlice = createSlice({
           state.isAuthenticated = true
           state.username = action.payload.username
           state.persona = action.payload.persona
+          sessionStorage.setItem('username', action.payload.username)
+          sessionStorage.setItem('persona', action.payload.persona)
           return
         }
         alert('Wrong username or password')
@@ -50,6 +65,8 @@ export const loginSlice = createSlice({
       })
   }
 })
+
+export const {checkSession, signOut} = loginSlice.actions
 
 export default loginSlice.reducer
 

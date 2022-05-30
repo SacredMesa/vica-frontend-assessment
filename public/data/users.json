@@ -1,22 +1,117 @@
 [
   {
     "username": "adminuser",
-    "password": "test-password",
+    "password": "1234",
     "persona": "ADMIN"
   },
   {
     "username": "editoruser",
-    "password": "test-password",
+    "password": "1234",
     "persona": "EDITOR"
   },
   {
     "username": "normaluser1",
-    "password": "test-password",
+    "password": "1234",
     "persona": "USER"
   },
   {
-    "username": "normaluser1",
-    "password": "test-password",
+    "username": "normaluser2",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser3",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser4",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser5",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser6",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser7",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser8",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser9",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser10",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser11",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser12",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser13",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser14",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser15",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser16",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser17",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser18",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser19",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser20",
+    "password": "1234",
+    "persona": "USER"
+  },
+  {
+    "username": "normaluser21",
+    "password": "1234",
     "persona": "USER"
   }
 ]

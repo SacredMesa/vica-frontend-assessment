@@ -1,46 +1,48 @@
-# Getting Started with Create React App
+# The Looking Glass
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+## Users
 
-## Available Scripts
+| username    | password |     persona |
+|-------------|:--------:|------------:|
+| adminuser   |   1234   |       admin |
+| editoruser  |   1234   |      editor |
+| normaluser1 |   1234   |        user |
 
-In the project directory, you can run:
+## Redux
 
-### `npm start`
+Redux was setup to handle the global state of the user authentication. Login logic was handled there, and currently logged in user and persona is stored in the the global state. Logic and state pertaining only to each individual components were contained within the components itself instead of into redux. If time permitted, a state machine (ie. xstate) would have been used to manage individual component logic and state.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project Structure
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+project
+│   node_modules
+│   public
+│   └───data // mock json responses with hardcoded data
+│   src
+|   └───app
+│   |    └───hooks.ts
+|   |    └───store.ts
+│   └───components // individual screens/features
+│   |       └───analytics
+│   |       └───auth
+|   |       └───books
+|   |       └───user-management
+|   |       └───common // reusable components
+|   |       └───layouts // skeleton for app ui
+|   └───App.tsx
+|   └───index.tsx
+```
 
-### `npm test`
+## Code Implementation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Created mock data contained in json files that can be obtained to the frontend through a fetch request, allowing easy switching to a real fetch response in the future.
+- Created base layouts and authentication, as these act as the backbone to the entire app
+  - Feature routes are handled through AuthRedirection
+- Implemented each screen
 
-### `npm run build`
+## Scalability
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The project is scalable as only global logic and state data are kept inside the reducer. Everything that pertains only to an individual screen/component are kept within that component itself. As mentioned previously, this would be further optimised through the use of state machines, to separate UI from logic.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Future features can be implemented by simply making a folder in components to contain the .tsx and service, then a route added to it within the AuthRedirection component.

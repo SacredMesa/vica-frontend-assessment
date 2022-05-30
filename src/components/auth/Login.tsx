@@ -11,6 +11,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {authenticatedState, checkSession, verifyUser} from "./loginSlice";
+import {APP_TITLE} from "../../constants";
 
 export interface LoginDetailsType {
   username: string;
@@ -66,7 +67,7 @@ function Login() {
           alignItems="center"
         >
           <CFaBook boxSize='100px'/>
-          <Heading>Looking Glass</Heading>
+          <Heading>{APP_TITLE}</Heading>
           <Box minW={{base: "90%", md: "468px"}}>
             <form onSubmit={tryLogin}>
               <Stack

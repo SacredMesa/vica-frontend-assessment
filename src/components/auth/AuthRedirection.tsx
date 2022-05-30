@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout";
 import React, {useEffect} from "react";
 import {useAppDispatch} from "../../app/hooks";
 import {checkSession} from "./loginSlice";
-import {Counter} from "../counter/Counter";
 import UserManagement from "../user-management/UserManagement";
 import Books from "../books/Books";
 import Analytics from "../analytics/Analytics";
@@ -13,7 +12,6 @@ const AuthRedirection = () => {
 
   useEffect(() => {
     dispatch(checkSession())
-    // if(isAuthenticated) return navigate('/home')
   },[dispatch])
 
   if (!sessionStorage.getItem('username') && !sessionStorage.getItem('persona')) {
@@ -22,7 +20,6 @@ const AuthRedirection = () => {
   return (
     <BaseLayout>
       <Routes>
-        <Route path="/counter" element={<Counter />} />
         <Route path="/books" element={<Books />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/users" element={<UserManagement />} />

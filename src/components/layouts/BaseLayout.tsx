@@ -33,6 +33,7 @@ import { ReactText } from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {useNavigate} from "react-router-dom";
 import {authenticatedPersona, authenticatedUser, signOut} from "../auth/loginSlice";
+import {APP_TITLE} from "../../constants";
 
 interface LinkItemProps {
   name: string;
@@ -96,7 +97,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Looking Glass
+          {APP_TITLE}
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>

@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {BookType, getAllBooks} from "./BooksService";
 import {
+  Button,
   Container,
   Editable,
   EditableInput,
@@ -14,13 +15,16 @@ import {
 import {DeleteIcon} from "@chakra-ui/icons";
 import {Column, usePagination, useSortBy, useTable} from "react-table";
 import {PERSONAS} from "../../constants";
-import {useAppSelector} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {authenticatedPersona} from "../auth/loginSlice";
 import Pagination from "../common/pagination";
+import {borrowBook, borrowedBooks, returnBook} from "./bookSlice";
 
 const Books = () => {
   const [bookData, setBookData] = useState<BookType[]>([])
+  const dispatch = useAppDispatch();
   const persona = useAppSelector(authenticatedPersona)
+  const userBorrowedBooks = useAppSelector(borrowedBooks)
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -33,6 +37,7 @@ const Books = () => {
   const data = React.useMemo(
     () => {
       return bookData.map(item => ({
+        toBorrow: '',
         ...item,
         deleteButton: ''
       }))
@@ -64,6 +69,34 @@ const Books = () => {
 
   const columns: Column<any>[] = React.useMemo(
     () => [
+      {
+        Header: '',
+        accessor: 'toBorrow',
+        Cell: ({row: {index}}: any) => {
+          const selectedBook = data[index].id
+          return !userBorrowedBooks.includes(selectedBook)
+            ? (
+              <Button
+                colorScheme='messenger'
+                onClick={() => {
+                  dispatch(borrowBook(selectedBook))
+                }}
+              >
+                Borrow
+              </Button>
+            )
+            : (
+              <Button
+                colorScheme='red'
+                onClick={() => {
+                  dispatch(returnBook(selectedBook))
+                }}
+              >
+                Return
+              </Button>
+            )
+        }
+      },
       {
         Header: 'Title',
         accessor: 'title',
@@ -130,7 +163,7 @@ const Books = () => {
         Cell: deleteButton,
       },
     ],
-    [deleteButton, persona]
+    [deleteButton, persona, userBorrowedBooks, data, dispatch]
   )
 
   const {
@@ -147,7 +180,7 @@ const Books = () => {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
+    state: {pageIndex, pageSize},
   } = useTable({columns, data}, useSortBy, usePagination)
 
   return (
@@ -180,7 +213,7 @@ const Books = () => {
             {page.map(row => {
               prepareRow(row)
               return (
-                <Tr {...row.getRowProps()}>
+                <Tr {...row.getRowProps()} >
                   {row.cells.map(cell => {
                     return (
                       <Td {...cell.getCellProps()}>

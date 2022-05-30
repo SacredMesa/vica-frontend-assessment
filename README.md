@@ -10,7 +10,9 @@
 
 ## Redux
 
-Redux was setup to handle the global state of the user authentication. Login logic was handled there, and currently logged in user and persona is stored in the the global state. Logic and state pertaining only to each individual components were contained within the components itself instead of into redux. If time permitted, a state machine (ie. xstate) would have been used to manage individual component logic and state.
+Redux was setup to handle the global state of the user authentication. Login logic was handled there, with the currently logged in user and persona stored in the the global state. Borrowed books are also stored in the global state for future components to use.
+
+Logic and state pertaining only to each individual components were contained within the components itself instead of into redux. If time permitted, a state machine (ie. xstate) would have been used to manage individual component logic and state.
 
 ## Project Structure
 
